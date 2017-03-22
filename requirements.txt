@@ -1,0 +1,4 @@
+nltk
+swagger_spec_validator
+textblob
+inflect
