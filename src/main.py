@@ -1,7 +1,6 @@
 import preprocessor
 import nlp
 import json
-# import yaml
 from collections import OrderedDict
 import sys
 import time
@@ -55,8 +54,6 @@ elif args['folder']:
     state_graph = nlp_model['state_graph']
     with open('output_files/nlp_model.json', 'w') as outfile:
         json.dump(nlp_model, outfile, indent=4)
-    # with open('output_files/state_graph.json', 'w') as outfile:
-    #     json.dump(state_graph, outfile, indent=4)
 
 print('Generating files...')
 graph.draw(resource_graph,state_graph,args['fixgraph'])
