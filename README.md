@@ -6,7 +6,7 @@ The API Development process, using the proposed system, consists of two steps:
   1. Write resource files according to the Gherkin Specification Document
   2. Run the Gherkin2OAS tool, which will in turn convert the Gherkin resource files to an OpenAPI Specification
 
-# Installation
+## Installation
 
 1. Clone or download
 2. Navigate to the folder and install the required packages
@@ -15,7 +15,7 @@ The API Development process, using the proposed system, consists of two steps:
 pip install -r requirements.txt
 ```
 
-# Execution
+## Execution
 
 1. Navigate to the src folder
 2. Make sure you have at least one resource file written and the api_info.ini file filled
@@ -32,13 +32,13 @@ pip install -r requirements.txt
 
   You can also specify the -fg flag to enable graph fixing mode.
   
-# Notes
+## Notes
 
 * The resource files must have '.resource' extension, can be organised in any number of folders and can co-exist with any number of other file types. The file names can have spaces, underscores or dashes.
 * The reliability of the system is secured through following the Gherkin Specification Document. Failure to follow the described rules will definitely lead to invalid OpenAPI Specification and sometimes unsuccessfull execution of the software tool.
 * The system uses the following POS Tagger https://explosion.ai/blog/part-of-speech-pos-tagger-in-python.
 
-# Demo
+## Demo
 
 You can view a demo of the system in the following video: link to be added
 
