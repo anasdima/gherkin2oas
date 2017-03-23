@@ -61,8 +61,6 @@ def generate_swagger(model):
         for operation,op_model in operations.items():
             if op_model != empty[operation] and (operation != 'post'):                 
                 if len(op_model['request_params']) == 0:
-                    # if type(op_model['request_params'][0]) is not list:
-                    #     if op_model['request_params'][0]['path_param'] and not op_model['request_params'][0]['name']:
                     if not single_resource_path:
                         single_resource_path = collection_path + '/{' + 'id}'
                         all_paths[resource][operation] = single_resource_path
@@ -239,32 +237,7 @@ def generate_swagger(model):
                                                 new_paths.append({'new_path':new_path, 'old_path':all_paths[resource][operation],'path_params':inherited_path_params})
                                                 hierarchy_levels[low_hierarchy_level].append({'path':new_path, 'path_params':inherited_path_params})
                                                 completed_paths_count += 1
-                                    break
-                    # if found_link == False:
-                        # sys.exit("Warning, parameter " + path_hierarchy[resource]['linking_parameter'] + " was detected as linking between the resources "\
-                        # + resource + " and " + path_hierarchy[resource]['hierarchy_resource'] + " but was not found in any detected paths. Was it mentioned in any scenario?")
-                # else:
-                #     # choose random hierarchy path
-                #     for operation in operations:
-                #         if operations[operation] != empty[operation]:
-                #             for higher_hierarchy_path in hierarchy_levels[high_hierarchy_level]:
-                #                 if re.search(path_hierarchy[resource]['hierarchy_resource'],higher_hierarchy_path['path']):
-                #                     if higher_hierarchy_path['path_params']:
-                #                         for path_param in higher_hierarchy_path['path_params']:
-                #                             if path_param not in inherited_path_params:
-                #                                 inherited_path_params.append(path_param)
-                #                     for operation in model[resource]:
-                #                         if model[resource] != empty[operation]:
-                #                             if (operation == 'get' or operation == 'delete' or operation == 'put'):
-                #                                 for parameter in paths_object[all_paths[resource][operation]][operation]['parameters']:
-                #                                     if parameter['in'] == 'path' and parameter not in inherited_path_params:
-                #                                         inherited_path_params.append(parameter)
-                #                             new_path = higher_hierarchy_path['path'] + all_paths[resource][operation]
-                #                             all_paths[resource][operation] = new_path
-                #                             if not any(registered_path['path'] == new_path for registered_path in hierarchy_levels[low_hierarchy_level]):
-                #                                 new_paths.append({'new_path':new_path, 'old_path':all_paths[resource][operation],'path_params':inherited_path_params})
-                #                                 hierarchy_levels[low_hierarchy_level].append({'path':new_path, 'path_params':inherited_path_params})
-                #                                 completed_paths_count += 1                         
+                                    break                       
         high_hierarchy_level += 1
         low_hierarchy_level += 1
         hierarchy_levels.append([])
@@ -322,13 +295,7 @@ def generate_swagger(model):
                             definitions_object[object_name]['properties'] = {}     
                         for param in op_model['responses'][response_type]['params']:
                             if type(param) is list:
-                                for domain_param in param:  
-                                    # file_object_name = domain_param['name']
-                                    # file_object_name = '_'.join(file_object_name.split(' '))
-                                    # definitions_object[file_object_name] = {}
-                                    # definitions_object[file_object_name]['type'] = 'file'
-                                    # definitions_object[object_name]['properties'][domain_param['name']] = {'$ref':'#/definitions/' + file_object_name}
-                                    # paths_object[this_path][operation]['consumes'] = ["multipart/form-data","application/x-www-form-urlencoded"]                          
+                                for domain_param in param:             
                                     if 'required' in domain_param:
                                         if domain_param['required'] == True:
                                             if 'required' not in definitions_object[object_name]:
