@@ -38,10 +38,9 @@ minimum_phrases = ['min', 'minimum', 'cannot be less than', \
 'can\'t be less than', 'floor', 'can\'t be less than', 'cannot be less than']
 exclusive_phrases = ['exclusive','including']
 
-# st = StanfordPOSTagger("C:/Users/Tasos/OneDriveThesis/Thesis/src/lib/stanford-postagger-full-2015-12-09/models/english-left3words-distsim.tagger",
-#                "C:/Users/Tasos/OneDriveThesis/Thesis/src/lib/stanford-postagger-full-2015-12-09/stanford-postagger.jar")
+# st = StanfordPOSTagger("/path/to/stanfordtagger")
 
-# senna_tagger = SennaTagger("C:/Users/Tasos/OneDriveThesis/Thesis/src/lib/senna")
+# senna_tagger = SennaTagger("path/to/sennatagger")
 p = inflect.engine()
 
 def resource_analysis(resources,resource_names):
@@ -307,8 +306,7 @@ def resource_analysis(resources,resource_names):
                                                 state_graph[resource+' '+state] = {'operation':op,'resource':resource,'links':[],\
                                                 'http_state':step['scenario_name'] + ' ('  + steps_message_type + ')','natural_state':state,\
                                                 'code':steps_message_type} 
-                                            for link in links:
-                                                # print(state,link,1)    
+                                            for link in links:  
                                                 if not ({'operation':link['operation'],'resource':link['path']} in model[resource][op]['responses'][steps_message_type]['links']):
                                                     flag = False
                                                     for oper in model[resource]:
@@ -319,9 +317,7 @@ def resource_analysis(resources,resource_names):
                                                     if flag == False:
                                                         resource_graph[resource].append({'operation':link['natural_verb'],'resource':link['natural_resource_name']})
                                                 if link not in state_graph[resource+' '+state]['links']:
-                                                    # print(state,link,2)
-                                                    state_graph[resource+' '+state]['links'].append(link) 
-                                                    # print(state,state_graph[resource+' '+state]['links'],3)                                            
+                                                    state_graph[resource+' '+state]['links'].append(link)                                           
                                                 model[resource][op]['responses'][steps_message_type]['links'].append({'operation':link['operation'],'resource':link['path']})
                                     else:                                
                                         params = detect_parameters(step['sentence'],resource_names)
@@ -456,8 +452,6 @@ def plural_extend(words_in_dict_keys):
     return list(words_in_dict_keys) + [p.plural(word) for word in list(words_in_dict_keys)]
 
 def analyze_data_table(table,operation):
-    # patterns = [(r'^-?[0-9]+(.[0-9]+)?$', 'CD')]
-    # regexp_tagger = nltk.RegexpTagger(patterns)
     domain = []
     example = {}
     numrows = len(table)
