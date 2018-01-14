@@ -1,0 +1,1003 @@
+{
+    "host": "localhost",
+    "swagger": "2.0",
+    "securityDefinitions": {
+        "administrator": {
+            "type": "oauth2",
+            "authorizationUrl": "http://swagger.io/api/oauth/dialog",
+            "flow": "implicit",
+            "scopes": {
+                "delete:/product": "No description",
+                "post:/product": "No description",
+                "put:/product": "No description"
+            }
+        }
+    },
+    "info": {
+        "version": "1",
+        "description": "Demo",
+        "license": {
+            "name": "",
+            "url": ""
+        },
+        "termsOfService": "",
+        "contact": {
+            "name": "Tasos",
+            "url": "",
+            "email": "anasdima@ece.auth.gr"
+        },
+        "title": "Generic eshop API"
+    },
+    "paths": {
+        "/order/{order_id}": {
+            "get": {
+                "responses": {
+                    "404": {
+                        "description": "That order doesn't exist"
+                    },
+                    "default": {
+                        "description": "None",
+                        "schema": {
+                            "$ref": "#/definitions/order_get_default_response"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "order_id",
+                        "in": "path",
+                        "format": "int32",
+                        "required": true
+                    }
+                ]
+            },
+            "delete": {
+                "responses": {
+                    "200": {
+                        "description": "Order canceled",
+                        "schema": {
+                            "$ref": "#/definitions/order_delete_200_response"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "order_id",
+                        "in": "path",
+                        "format": "int32",
+                        "required": true
+                    }
+                ]
+            },
+            "put": {
+                "responses": {
+                    "200": {
+                        "description": "Order updated",
+                        "schema": {
+                            "$ref": "#/definitions/order_put_200_response"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "order_put_request_body",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/order_put_request_body"
+                        }
+                    },
+                    {
+                        "type": "integer",
+                        "name": "order_id",
+                        "in": "path",
+                        "format": "int32",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        "/basket/{basket_id}": {
+            "get": {
+                "responses": {
+                    "default": {
+                        "description": "None",
+                        "schema": {
+                            "$ref": "#/definitions/basket_get_default_response"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "basket_id",
+                        "in": "path",
+                        "format": "int32",
+                        "required": true
+                    }
+                ]
+            },
+            "put": {
+                "responses": {
+                    "default": {
+                        "description": "None",
+                        "schema": {
+                            "$ref": "#/definitions/basket_put_default_response"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "basket_put_request_body",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/basket_put_request_body"
+                        }
+                    },
+                    {
+                        "type": "integer",
+                        "name": "basket_id",
+                        "in": "path",
+                        "format": "int32",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        "/product": {
+            "delete": {
+                "responses": {
+                    "404": {
+                        "description": "the product doesn't exist"
+                    },
+                    "default": {
+                        "description": "None",
+                        "schema": {
+                            "$ref": "#/definitions/product_delete_default_response"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "administrator": [
+                            "delete:/product"
+                        ]
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "type": "string",
+                        "in": "query",
+                        "required": false
+                    },
+                    {
+                        "name": "category",
+                        "type": "string",
+                        "in": "query",
+                        "required": false
+                    }
+                ]
+            },
+            "put": {
+                "responses": {
+                    "404": {
+                        "description": "Not allowed"
+                    },
+                    "default": {
+                        "description": "None",
+                        "schema": {
+                            "$ref": "#/definitions/product_put_default_response"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "administrator": [
+                            "put:/product"
+                        ]
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "product_put_request_body",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/product_put_request_body"
+                        }
+                    }
+                ]
+            },
+            "post": {
+                "responses": {
+                    "404": {
+                        "description": "Not allowed"
+                    },
+                    "default": {
+                        "description": "None",
+                        "schema": {
+                            "$ref": "#/definitions/product_post_default_response"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "administrator": [
+                            "post:/product"
+                        ]
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "product_post_request_body",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/product_post_request_body"
+                        }
+                    }
+                ]
+            }
+        },
+        "/product/{product_id}": {
+            "get": {
+                "responses": {
+                    "404": {
+                        "description": "the product doesn't exist"
+                    },
+                    "default": {
+                        "description": "None",
+                        "schema": {
+                            "$ref": "#/definitions/product_get_default_response"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "product_id",
+                        "in": "path",
+                        "format": "int32",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        "/order/{order_id}/payment": {
+            "post": {
+                "description": "- \tPossible payment options are 'credit', 'cash', 'paypal'",
+                "responses": {
+                    "400": {
+                        "description": "wrong amount",
+                        "schema": {
+                            "$ref": "#/definitions/payment_post_400_response"
+                        }
+                    },
+                    "default": {
+                        "description": "None",
+                        "schema": {
+                            "$ref": "#/definitions/payment_post_default_response"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "payment_post_request_body",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/payment_post_request_body"
+                        }
+                    },
+                    {
+                        "type": "integer",
+                        "name": "order_id",
+                        "in": "path",
+                        "format": "int32",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        "/pending_deliveries": {
+            "get": {
+                "responses": {
+                    "default": {
+                        "description": "None",
+                        "schema": {
+                            "$ref": "#/definitions/pending_deliveries_get_default_response"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "delivery",
+                        "type": "string",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "name": "id",
+                        "type": "integer",
+                        "in": "query",
+                        "format": "int32",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        "/order": {
+            "post": {
+                "consumes": [
+                    "multipart/form-data",
+                    "application/x-www-form-urlencoded"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Order created successfully",
+                        "schema": {
+                            "$ref": "#/definitions/order_post_200_response"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "order document",
+                        "type": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        "/search": {
+            "get": {
+                "description": "- \tThe user is able to search for products in the website using name and/or category filter, view their general details and choose to view their\n\tspecific details",
+                "responses": {
+                    "default": {
+                        "description": "None",
+                        "schema": {
+                            "$ref": "#/definitions/search_get_default_response"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "name",
+                        "type": "string",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "name": "category",
+                        "type": "string",
+                        "in": "query",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        "/basket": {
+            "post": {
+                "responses": {
+                    "default": {
+                        "description": "None",
+                        "schema": {
+                            "$ref": "#/definitions/basket_post_default_response"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "basket_post_request_body",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/basket_post_request_body"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "produces": [
+        "application/json"
+    ],
+    "basePath": "/v1",
+    "definitions": {
+        "basket_put_default_response": {
+            "type": "object",
+            "example": [
+                {
+                    "quantity": 4,
+                    "product ids": [
+                        1,
+                        4,
+                        7,
+                        7,
+                        7
+                    ]
+                }
+            ],
+            "properties": {
+                "quantity": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "product ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                }
+            },
+            "x-links": [
+                {
+                    "operation": "post",
+                    "path": "/order"
+                },
+                {
+                    "operation": "get",
+                    "path": "/basket/{basket_id}"
+                }
+            ],
+            "required": [
+                "product ids",
+                "quantity"
+            ]
+        },
+        "product_put_default_response": {
+            "type": "object",
+            "example": [
+                {
+                    "name": "bag",
+                    "description": "small bag",
+                    "category": "sports"
+                }
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "category": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "description",
+                "category"
+            ]
+        },
+        "basket_put_request_body": {
+            "type": "object",
+            "example": [
+                {
+                    "quantity": 3,
+                    "product id": 14777
+                }
+            ],
+            "properties": {
+                "quantity": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "product id": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            },
+            "required": [
+                "product id",
+                "quantity"
+            ]
+        },
+        "product_post_request_body": {
+            "type": "object",
+            "properties": {
+                "product": {
+                    "$ref": "#/definitions/product"
+                }
+            }
+        },
+        "product_put_request_body": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "product": {
+                    "$ref": "#/definitions/product"
+                }
+            }
+        },
+        "product_get_default_response": {
+            "type": "object",
+            "properties": {
+                "product": {
+                    "$ref": "#/definitions/product"
+                }
+            },
+            "x-links": [
+                {
+                    "operation": "post",
+                    "path": "/basket"
+                }
+            ],
+            "required": [
+                "product"
+            ]
+        },
+        "product_post_default_response": {
+            "type": "object",
+            "properties": {
+                "product": {
+                    "$ref": "#/definitions/product"
+                }
+            },
+            "required": [
+                "product"
+            ]
+        },
+        "order_post_200_response": {
+            "type": "object",
+            "x-links": [
+                {
+                    "operation": "post",
+                    "path": "/order/{order_id}/payment"
+                },
+                {
+                    "operation": "get",
+                    "path": "/order/{order_id}"
+                },
+                {
+                    "operation": "delete",
+                    "path": "/order/{order_id}"
+                },
+                {
+                    "operation": "put",
+                    "path": "/order/{order_id}"
+                }
+            ]
+        },
+        "payment_post_400_response": {
+            "type": "object",
+            "x-links": [
+                {
+                    "operation": "post",
+                    "path": "/order/{order_id}/payment"
+                },
+                {
+                    "operation": "get",
+                    "path": "/order/{order_id}"
+                }
+            ]
+        },
+        "basket_get_default_response": {
+            "type": "object",
+            "properties": {
+                "basket": {
+                    "$ref": "#/definitions/basket"
+                }
+            },
+            "x-links": [
+                {
+                    "operation": "post",
+                    "path": "/order"
+                },
+                {
+                    "operation": "get",
+                    "path": "/basket/{basket_id}"
+                }
+            ],
+            "required": [
+                "basket"
+            ]
+        },
+        "payment_post_request_body": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string"
+                },
+                "amount": {
+                    "type": "number",
+                    "format": "float"
+                },
+                "date": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            },
+            "example": [
+                {
+                    "type": "credit",
+                    "amount": 28.2,
+                    "date": "8/2/2017 12:32"
+                }
+            ]
+        },
+        "basket_post_request_body": {
+            "type": "object",
+            "properties": {
+                "basket": {
+                    "$ref": "#/definitions/basket"
+                }
+            },
+            "required": [
+                "basket"
+            ]
+        },
+        "order_put_200_response": {
+            "type": "object",
+            "x-links": [
+                {
+                    "operation": "post",
+                    "path": "/order/{order_id}/payment"
+                },
+                {
+                    "operation": "get",
+                    "path": "/order/{order_id}"
+                },
+                {
+                    "operation": "delete",
+                    "path": "/order/{order_id}"
+                },
+                {
+                    "operation": "put",
+                    "path": "/order/{order_id}"
+                }
+            ]
+        },
+        "order_put_request_body": {
+            "type": "object",
+            "example": [
+                {
+                    "quantities": [
+                        1,
+                        1,
+                        1,
+                        2
+                    ],
+                    "product ids": [
+                        3433,
+                        1212,
+                        1276
+                    ]
+                }
+            ],
+            "properties": {
+                "quantities": {
+                    "type": "array",
+                    "maxItems": 100,
+                    "items": {
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                },
+                "product ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                }
+            },
+            "required": [
+                "product ids",
+                "quantities"
+            ]
+        },
+        "basket": {
+            "type": "object",
+            "properties": {
+                "basket id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "quantities": {
+                    "type": "array",
+                    "description": "list of quantities, one for each product",
+                    "maxItems": 100,
+                    "items": {
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                },
+                "product ids": {
+                    "type": "array",
+                    "maxItems": 100,
+                    "items": {
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                }
+            },
+            "example": [
+                {
+                    "basket id": 1,
+                    "quantities": [
+                        1,
+                        1,
+                        1,
+                        2
+                    ],
+                    "product ids": [
+                        14556,
+                        14777,
+                        12001,
+                        12451
+                    ]
+                }
+            ]
+        },
+        "payment_post_default_response": {
+            "type": "object",
+            "x-links": [
+                {
+                    "operation": "get",
+                    "path": "/order/{order_id}"
+                }
+            ]
+        },
+        "search_get_default_response": {
+            "type": "object",
+            "example": [
+                {
+                    "name": "keyboard",
+                    "price": 69.99
+                }
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number",
+                    "format": "float"
+                }
+            },
+            "x-links": [
+                {
+                    "operation": "get",
+                    "path": "/product/{product_id}"
+                }
+            ],
+            "required": [
+                "name",
+                "price"
+            ]
+        },
+        "order_get_default_response": {
+            "type": "object",
+            "example": [
+                {
+                    "product descriptions": [
+                        "Made in Stockholm",
+                        "Mechanical",
+                        "IPS Screen"
+                    ],
+                    "product names": [
+                        "Chair",
+                        "Keyboard",
+                        "Dell Laptop"
+                    ]
+                }
+            ],
+            "properties": {
+                "product descriptions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "product names": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "x-links": [
+                {
+                    "operation": "post",
+                    "path": "/order/{order_id}/payment"
+                },
+                {
+                    "operation": "get",
+                    "path": "/order/{order_id}"
+                },
+                {
+                    "operation": "delete",
+                    "path": "/order/{order_id}"
+                },
+                {
+                    "operation": "put",
+                    "path": "/order/{order_id}"
+                }
+            ],
+            "required": [
+                "product names",
+                "product descriptions"
+            ]
+        },
+        "pending_deliveries_get_default_response": {
+            "type": "object",
+            "example": [
+                {
+                    "product descriptions": [
+                        "Made in Stockholm",
+                        "Mechanical",
+                        "IPS Screen"
+                    ],
+                    "product names": [
+                        "Chair",
+                        "Keyboard",
+                        "Dell Laptop"
+                    ]
+                }
+            ],
+            "properties": {
+                "product descriptions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "product names": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "x-links": [
+                {
+                    "operation": "get",
+                    "path": "/pending_deliveries"
+                }
+            ],
+            "required": [
+                "product names",
+                "product descriptions"
+            ]
+        },
+        "product": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "category": {
+                    "type": "string"
+                },
+                "on sale": {
+                    "type": "boolean"
+                },
+                "cost": {
+                    "type": "number",
+                    "format": "float"
+                },
+                "available in": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "shipping": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "color": {
+                    "type": "string"
+                },
+                "doa": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            },
+            "example": [
+                {
+                    "name": "Chair",
+                    "category": "furniture",
+                    "on sale": false,
+                    "cost": 15000.1,
+                    "available in": 48,
+                    "description": "Made in Stockholm",
+                    "shipping": "worldwide",
+                    "id": 45,
+                    "color": "Deep dark brown",
+                    "doa": 7
+                }
+            ]
+        },
+        "order_delete_200_response": {
+            "type": "object",
+            "x-links": [
+                {
+                    "operation": "get",
+                    "path": "/search"
+                }
+            ]
+        },
+        "product_delete_default_response": {
+            "type": "object",
+            "properties": {
+                "product": {
+                    "$ref": "#/definitions/product"
+                }
+            },
+            "required": [
+                "product"
+            ]
+        },
+        "basket_post_default_response": {
+            "type": "object",
+            "example": [
+                {
+                    "basket id": 1,
+                    "quantities": [
+                        1,
+                        1,
+                        1,
+                        2
+                    ],
+                    "product ids": [
+                        14556,
+                        14777,
+                        12001,
+                        12451
+                    ]
+                }
+            ],
+            "properties": {
+                "basket id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "quantities": {
+                    "type": "array",
+                    "maxItems": 100,
+                    "items": {
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                },
+                "product ids": {
+                    "type": "array",
+                    "maxItems": 100,
+                    "items": {
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                }
+            },
+            "x-links": [
+                {
+                    "operation": "post",
+                    "path": "/order"
+                },
+                {
+                    "operation": "get",
+                    "path": "/basket/{basket_id}"
+                }
+            ],
+            "required": [
+                "product ids",
+                "quantities",
+                "basket id"
+            ]
+        }
+    },
+    "schemes": [
+        "https",
+        "http"
+    ]
+}
