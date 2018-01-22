@@ -204,62 +204,63 @@ def generate_swagger(model):
                         hierarchy_levels[0].append({'path':all_paths[resource][operation], 'path_params':path_params})
                         new_paths.append({'new_path':all_paths[resource][operation],'old_path':all_paths[resource][operation], 'path_params':[]})
                         completed_paths_count += 1
-    if not hierarchy_levels[0]:
-        sys.exit('It seems that a path hierarchy was specified in every resource file. For path hierarchies to make sense, at least one resource file must have no hierarchies')
-    high_hierarchy_level = 0
-    low_hierarchy_level = 1
-    hierarchy_levels.append([])
-    while completed_paths_count != len(list(paths_object)):
-        for resource in model:
-            if path_hierarchy[resource] and not done_resources[resource]:
-                inherited_path_params = []
-                if path_hierarchy[resource]['linking_parameter']:
-                    found_link = False
-                    for higher_hierarchy_path in hierarchy_levels[high_hierarchy_level]:
-                        if re.search(r'\b' + path_hierarchy[resource]['hierarchy_resource'] + r'\b',higher_hierarchy_path['path']):
-                            if higher_hierarchy_path['path_params']:
-                                for path_param in higher_hierarchy_path['path_params']:
-                                    if path_param['name'] == path_hierarchy[resource]['linking_parameter'] and re.search(path_param['name'] + '}$', higher_hierarchy_path['path']):
-                                        found_link = True
-                                        done_resources[resource] = True
-                                if found_link == True:
-                                    for path_param in higher_hierarchy_path['path_params']:
-                                        if path_param not in inherited_path_params:
-                                            inherited_path_params.append(path_param)
-                                    for operation in model[resource]:
-                                        if model[resource][operation] != empty[operation]:
-                                            if (operation == 'get' or operation == 'delete' or operation == 'put'):
-                                                for parameter in paths_object[all_paths[resource][operation]][operation]['parameters']:
-                                                    if parameter['in'] == 'path' and parameter not in inherited_path_params:
-                                                        inherited_path_params.append(parameter)
-                                            new_path = higher_hierarchy_path['path'] + all_paths[resource][operation]
-                                            if not any(registered_path['path'] == new_path for registered_path in hierarchy_levels[low_hierarchy_level]):
-                                                new_paths.append({'new_path':new_path, 'old_path':all_paths[resource][operation],'path_params':inherited_path_params})
-                                                hierarchy_levels[low_hierarchy_level].append({'path':new_path, 'path_params':inherited_path_params})
-                                                completed_paths_count += 1
-                                    break                       
-        high_hierarchy_level += 1
-        low_hierarchy_level += 1
+    # if not hierarchy_levels[0]:
+    #     sys.exit('It seems that a path hierarchy was specified in every resource file. For path hierarchies to make sense, at least one resource file must have no hierarchies')
+    if hierarchy_levels[0]:
+        high_hierarchy_level = 0
+        low_hierarchy_level = 1
         hierarchy_levels.append([])
+        while completed_paths_count != len(list(paths_object)):
+            for resource in model:
+                if path_hierarchy[resource] and not done_resources[resource]:
+                    inherited_path_params = []
+                    if path_hierarchy[resource]['linking_parameter']:
+                        found_link = False
+                        for higher_hierarchy_path in hierarchy_levels[high_hierarchy_level]:
+                            if re.search(r'\b' + path_hierarchy[resource]['hierarchy_resource'] + r'\b',higher_hierarchy_path['path']):
+                                if higher_hierarchy_path['path_params']:
+                                    for path_param in higher_hierarchy_path['path_params']:
+                                        if path_param['name'] == path_hierarchy[resource]['linking_parameter'] and re.search(path_param['name'] + '}$', higher_hierarchy_path['path']):
+                                            found_link = True
+                                            done_resources[resource] = True
+                                    if found_link == True:
+                                        for path_param in higher_hierarchy_path['path_params']:
+                                            if path_param not in inherited_path_params:
+                                                inherited_path_params.append(path_param)
+                                        for operation in model[resource]:
+                                            if model[resource][operation] != empty[operation]:
+                                                if (operation == 'get' or operation == 'delete' or operation == 'put'):
+                                                    for parameter in paths_object[all_paths[resource][operation]][operation]['parameters']:
+                                                        if parameter['in'] == 'path' and parameter not in inherited_path_params:
+                                                            inherited_path_params.append(parameter)
+                                                new_path = higher_hierarchy_path['path'] + all_paths[resource][operation]
+                                                if not any(registered_path['path'] == new_path for registered_path in hierarchy_levels[low_hierarchy_level]):
+                                                    new_paths.append({'new_path':new_path, 'old_path':all_paths[resource][operation],'path_params':inherited_path_params})
+                                                    hierarchy_levels[low_hierarchy_level].append({'path':new_path, 'path_params':inherited_path_params})
+                                                    completed_paths_count += 1
+                                        break                       
+            high_hierarchy_level += 1
+            low_hierarchy_level += 1
+            hierarchy_levels.append([])
 
-    for path in new_paths:
-        new_path = path['new_path']
-        old_path = path['old_path']
-        if old_path in paths_object:
-            paths_object[new_path] = paths_object.pop(old_path)
-            for parameter in path['path_params']:
-                for operation in paths_object[new_path]:
-                    if parameter not in paths_object[new_path][operation]['parameters']:
-                        paths_object[new_path][operation]['parameters'].append(parameter)
+        for path in new_paths:
+            new_path = path['new_path']
+            old_path = path['old_path']
+            if old_path in paths_object:
+                paths_object[new_path] = paths_object.pop(old_path)
+                for parameter in path['path_params']:
+                    for operation in paths_object[new_path]:
+                        if parameter not in paths_object[new_path][operation]['parameters']:
+                            paths_object[new_path][operation]['parameters'].append(parameter)
     
 
-    for resource in model:
-        for operation in model[resource]:
-            if model[resource][operation] != empty[operation]:
-                for path in new_paths:
-                    if all_paths[resource][operation] == path['old_path']:
-                        all_paths[resource][operation] = path['new_path']
-                        break
+        for resource in model:
+            for operation in model[resource]:
+                if model[resource][operation] != empty[operation]:
+                    for path in new_paths:
+                        if all_paths[resource][operation] == path['old_path']:
+                            all_paths[resource][operation] = path['new_path']
+                            break
     # ---------------responses--------------------
     for resource,operations in model.items():
         for operation,op_model in operations.items():
