@@ -1,4 +1,7 @@
+gherkin-official
 nltk
 swagger_spec_validator
 textblob
 inflect
+pyyaml
+python-dateutil
