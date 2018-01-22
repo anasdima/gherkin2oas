@@ -47,5 +47,5 @@ pip install -r requirements.txt
 
 ## Demo
 
-You can view a demo of the system in the following video: https://www.dropbox.com/s/68vihyln9l3d50d/demo.mp4?dl=0
+You can view a demo of the system in the following video: https://www.youtube.com/watch?v=G5TNixy-dEc
 
