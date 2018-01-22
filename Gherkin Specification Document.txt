@@ -1,17 +1,37 @@
-This document describes the writing style of Gherkin files, as part of the Resource Driven Development methodology introduced by the Gherkin2OAS tool.
-Requirements are written in files. As in, usual -operating system- electronic files. All files are regular text files. The extension of the file must be “.resource”. The file name must be the same as the resource it describes. The files can be organized in any number of folders, including subfolders and so on.
-Each file describes only one resource. The files begin with the “Feature” keyword. The contents of the “Feature” keyword can be anything. Under the “Feature" keyword, “Background” and “Scenario” sections can be added. While the “Background” section is optional, there must be at least one “Scenario” section.
-In the file, the functionality of the API that uses the resource, is described, with natural language. More specifically:
+Please read the files in the examples folder to better understand the usage of the specification.
 
-Under the “Background” section, API roles and resource relations can be described. Backgrounds are written in a Given..And type of block. The API roles that are described here will have access to all the operations described in the scenarios below. Regarding the resource relations: Each resource will end up having a path in the API. The path will consist of a seed, a resource identification parameter (if any) and a hierarchy (if any). The seed comes from the name of the resource. The identification is always to the right of the seed (as the path is seen visually in text) and comes from the scenarios. The resource hierarchy is always to the left of the seed and comes from this section. So when other resources are described as relations in the “Background” section, keep in mind that they will always be treated as higher hierarchy resources. As a result they will be placed to the left of the path. If you want to describe a lower hierarchy resource, you should go to that lower hierarchy resource file and describe it’s higher hierarchy there instead.
+This document describes the writing style of Gherkin files in order to document a Web Service REST API. Web Service REST API requirements are written in regular text files. The extension of each file must be “.resource”. Each file name must be the same as the resource it describes. The files can be organized in any number of folders and subfolders.
+Each file must begin with the “Feature” keyword. The contents of the “Feature” keyword can be anything, it's a descriptional field. Below the “Feature" keyword, “Background” and “Scenario” sections can be added. While the “Background” section is optional, there must be at least one “Scenario” section in each file.
+
+Under the “Background” section, API roles and resource relations can be described. Backgrounds are written in a Given..And type of block. The API roles that are described here will have access to all the operations described in the scenarios below. Roles are declared with nouns inside a step. Regarding the resource relations: Each resource filename will end up being translated to a path in the API. If a resource name other than the current filename is mentioned in a sentence of a Background step, then that resource name will be treated as a parent resource and the current as a child resource like this: /parent_resource/child_resource
 
 Under each “Scenario” section, one or more API operations can be described. Scenarios are written in a Given..When..Then type of block. Under each Given,When,Then keyword extra steps can be added with the And keyword. 
-  * In the "Given" part of the scenario, roles can be described. The authorization of the roles described will only apply to the current scenario.
-  * In the "When" part of the scenario, the action of the application to the API is described. The action must be one of Create, Read, Update, Delete resource. If it’s not Create, Gherkin2OAS will try to figure out the path parameter for resource identification. If not specified, an id will be assumed. Nouns here are in general treated as string parameters. If you want to specify the data type of your parameters, you must put them in a Gherkin Data Table. In one column/row the names of the parameters are listed and in the other a representative example i.e. if your data type is float, don’t type as an example “5” but “5.1”. The data types supported are OpenApi Specification data types (https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md\#data-types). Specifically the types 'string', 'integer', 'number', 'file', 'date', 'date-time', 'boolean', 'password', 'array' and 'file'. Arrays must be declared with [brackets]. Array items can be seperated with commas, spaces, tabs and pipes. Finally the type 'file' is supported only in the 'When' step. In that case, the request must have no other parameters. If more than one operations are described in the When part, they will all have the same parameters and responses. 
-  * In the "Then" part of the scenario the response from the API to the application is described. This includes status code messages, parameters and links to other resources. For parameters the same rules apply as for When. For status code messages, the message must be in quoted text. The quoted text is analyzed and a status code is detected. Right now the codes 200,201,202,400,401,404 and 'default' are supported. For links to other resources, the name of the resource and the operation applied to it must be mentioned in the sentence.
+  * In the "Given" part of the scenario, roles can be described. The authorization of the roles described in this step will only apply to the current scenario.
+  * In the "When" part of the scenario, the request to the API is described. The request is described with a verb. The verb must be a synonym of one of the Create, Read, Update, Delete (CRUD) verbs. Gherkin2OAS uses the following lists to match verbs with CRUD:
+  	'CREATE': ["create", "add", "produce", "make", "put", "write", "pay", "send", "build", 
+	"raise", "develop", "register", "post", "submit", "apply", "order", "insert","comment","start"]
+
+	'READ': ["retrieve", "check", "choose", "request", "search", "contact", "get", 
+	"take", "see", "ask", "show", "watch", "read", "open", "reach", "return",
+	"receive", "view", "load", "review", "select"]
+
+	'UPDATE': ["perform", "mark", "evaluate", "update", "set", "change", "edit"]
+
+	'DELETE': ["delete", "destroy", "kill", "remove","cancel","stop"]
+   If the verb is not Create, Gherkin2OAS will try to figure out the path parameter for resource identification. If not specified, an id will be assumed.
+
+	When I update the basket by it's id
+	
+    Nouns here are in general treated as string parameters. If you want to specify the data type of your parameters, you must put them in a Gherkin Data Table. In one column/row the names of the parameters are listed and in the other a representative example i.e. if your data type is float, don’t type as an example “5” but “5.1”. The data types supported are OpenApi Specification data types (https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md\#data-types). Specifically the types 'string', 'integer', 'number', 'file', 'date', 'date-time', 'boolean', 'password', 'array' and 'file'. Arrays must be declared with [brackets]. Array items can be seperated with commas, spaces, tabs and pipes. Finally the type 'file' is supported only in the 'When' step. In that case, the request must have no other parameters. If more than one operations are described in the When part, they will all have the same parameters and responses. 
+
+  | product names        | ['Chair','Keyboard','Dell Laptop']              |  
+		| product descriptions | ['Made in Stockholm','Mechanical','IPS Screen'] |  
+
+  * In the "Then" part of the scenario, the response from the API is described. A response can include status code messages, parameters and links to other resources. For parameters the same rules apply as for When. For status code messages, the message must be in quoted text. The quoted text is analyzed and a status code is detected. Right now the codes 200,201,202,400,401,404 are supported. For links to other resources, the name of the resource and the operation applied to it (a CRUD verb) must be mentioned in the sentence.
+
+  Then I should see a success message saying "Order canceled"
+		And I should be prompted to request a search
 
 Notes: 
 * Keep your sentences simple. Use the And keyword to avoid long sentences.
-* Use comments, scenario descriptions and scenario names to escape from the rules and describe the system's functionality with more ease
-
-Please read the files in the examples folder to better understand the usage of the specification.
+* Use comments, scenario descriptions and scenario names to describe the system's functionality with more flexibility
