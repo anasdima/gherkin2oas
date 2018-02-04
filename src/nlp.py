@@ -438,6 +438,7 @@ def detect_model_name(sentence):
 
 def detect_http_verbs(sentence):
     tagged_tokens = TextBlob(sentence).tags
+    print(tagged_tokens)
     verbs = []
     for tagged_token in tagged_tokens: # a tagged token has the word at position 0 and the tag at position 1
         if tagged_token[1][0:2] == 'VB':           

@@ -6,7 +6,7 @@ from collections import OrderedDict
 # General comment: python dicts not perserving order matters here. Order is required.
 
 def main(resources_path):
-
+    print(resources_path)
     parser = Parser()
 
     nlp_ready_resources = {}

@@ -186,6 +186,7 @@ def generate_swagger(model):
     # ---------------path hierarchies--------------------
     hierarchy_levels = [[]]
     total_paths_count = len(list(paths_object))
+    print(paths_object)
     completed_paths_count = 0
     new_paths = []
     done_resources = {}
@@ -206,10 +207,12 @@ def generate_swagger(model):
                         completed_paths_count += 1
     # if not hierarchy_levels[0]:
     #     sys.exit('It seems that a path hierarchy was specified in every resource file. For path hierarchies to make sense, at least one resource file must have no hierarchies')
+    print(completed_paths_count)
     if hierarchy_levels[0]:
         high_hierarchy_level = 0
         low_hierarchy_level = 1
         hierarchy_levels.append([])
+        print(len(list(paths_object)))
         while completed_paths_count != len(list(paths_object)):
             for resource in model:
                 if path_hierarchy[resource] and not done_resources[resource]:
