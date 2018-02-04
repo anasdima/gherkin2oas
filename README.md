@@ -42,7 +42,6 @@ pip install -r requirements.txt
 
 * The resource files must have '.resource' extension, can be organised in any number of folders and can co-exist with any number of other file types. The file names can have spaces, underscores or dashes.
 * The reliability of the system is secured through following the Gherkin Specification Document. Failure to follow the described rules will definitely lead to invalid OpenAPI Specification and sometimes unsuccessfull execution of the software tool.
-* The system uses the following POS Tagger https://explosion.ai/blog/part-of-speech-pos-tagger-in-python.
 * It is suggested to use the Sublime Text editor while writing the Gherkin resource files, with the following package https://github.com/waynemoore/sublime-gherkin-formatter
 
 ## Demo
