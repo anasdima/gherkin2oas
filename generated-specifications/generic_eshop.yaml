@@ -2,7 +2,11 @@ basePath: /v1
 definitions:
     ? !!python/object/new:textblob.blob.Word
         args: [basket]
-        state: &id002 {pos_tag: NN, string: basket}
+        state: &id002
+            pos_tag: NN
+            string: !!python/object/new:textblob.blob.Word
+                args: [basket]
+                state: {pos_tag: null, string: basket}
     :   example:
         -   basket id: 1
             product ids: [14556, 14777, 12001, 12451]
@@ -23,7 +27,11 @@ definitions:
         properties:
             ? !!python/object/new:textblob.blob.Word
                 args: [basket]
-                state: &id001 {pos_tag: NN, string: basket}
+                state: &id001
+                    pos_tag: NN
+                    string: !!python/object/new:textblob.blob.Word
+                        args: [basket]
+                        state: {pos_tag: null, string: basket}
             : {$ref: '#/definitions/basket'}
         required:
         - !!python/object/new:textblob.blob.Word
@@ -101,7 +109,6 @@ definitions:
             product names:
                 items: {type: string}
                 type: array
-        required: [product names, product descriptions]
         type: object
         x-links:
         - {operation: post, path: '/order/{order_id}/payment'}
@@ -134,7 +141,6 @@ definitions:
                 items: {format: int32, type: integer}
                 maxItems: 100
                 type: array
-        required: [product ids, quantities]
         type: object
     payment_post_400_response:
         type: object
@@ -153,24 +159,13 @@ definitions:
             date: {format: date-time, type: string}
             type: {type: string}
         type: object
-    pending_deliveries_get_default_response:
-        example:
-        -   product descriptions: [Made in Stockholm, Mechanical, IPS Screen]
-            product names: [Chair, Keyboard, Dell Laptop]
-        properties:
-            product descriptions:
-                items: {type: string}
-                type: array
-            product names:
-                items: {type: string}
-                type: array
-        required: [product names, product descriptions]
-        type: object
-        x-links:
-        - {operation: get, path: /pending_deliveries}
     ? !!python/object/new:textblob.blob.Word
         args: [product]
-        state: &id006 {pos_tag: NN, string: product}
+        state: &id003
+            pos_tag: NN
+            string: !!python/object/new:textblob.blob.Word
+                args: [product]
+                state: {pos_tag: null, string: product}
     :   example:
         - {available in: 48, category: furniture, color: Deep dark brown, cost: 15000.1,
             description: Made in Stockholm, doa: 7, id: 45, name: Chair, on sale: false,
@@ -191,23 +186,23 @@ definitions:
         properties:
             ? !!python/object/new:textblob.blob.Word
                 args: [product]
-                state: &id003 {pos_tag: NN, string: product}
+                state:
+                    pos_tag: NN
+                    string: !!python/object/new:textblob.blob.Word
+                        args: [product]
+                        state: {pos_tag: null, string: product}
             : {$ref: '#/definitions/product'}
-        required:
-        - !!python/object/new:textblob.blob.Word
-            args: [product]
-            state: *id003
         type: object
     product_get_default_response:
         properties:
             ? !!python/object/new:textblob.blob.Word
                 args: [product]
-                state: &id004 {pos_tag: NN, string: product}
+                state:
+                    pos_tag: NN
+                    string: !!python/object/new:textblob.blob.Word
+                        args: [product]
+                        state: {pos_tag: null, string: product}
             : {$ref: '#/definitions/product'}
-        required:
-        - !!python/object/new:textblob.blob.Word
-            args: [product]
-            state: *id004
         type: object
         x-links:
         - {operation: post, path: /basket}
@@ -215,18 +210,18 @@ definitions:
         properties:
             ? !!python/object/new:textblob.blob.Word
                 args: [product]
-                state: &id005 {pos_tag: NN, string: product}
+                state:
+                    pos_tag: NN
+                    string: !!python/object/new:textblob.blob.Word
+                        args: [product]
+                        state: {pos_tag: null, string: product}
             : {$ref: '#/definitions/product'}
-        required:
-        - !!python/object/new:textblob.blob.Word
-            args: [product]
-            state: *id005
         type: object
     product_post_request_body:
         properties:
             ? !!python/object/new:textblob.blob.Word
                 args: [product]
-                state: {pos_tag: NN, string: product}
+                state: *id003
             : {$ref: '#/definitions/product'}
         type: object
     product_put_default_response:
@@ -242,11 +237,19 @@ definitions:
         properties:
             ? !!python/object/new:textblob.blob.Word
                 args: [description]
-                state: {pos_tag: NN, string: description}
+                state:
+                    pos_tag: NN
+                    string: !!python/object/new:textblob.blob.Word
+                        args: [description]
+                        state: {pos_tag: null, string: description}
             : {type: string}
             ? !!python/object/new:textblob.blob.Word
                 args: [product]
-                state: *id006
+                state:
+                    pos_tag: NN
+                    string: !!python/object/new:textblob.blob.Word
+                        args: [product]
+                        state: {pos_tag: null, string: product}
             : {$ref: '#/definitions/product'}
         type: object
     search_get_default_response:
@@ -260,13 +263,7 @@ definitions:
         x-links:
         - {operation: get, path: '/product/{product_id}'}
 host: localhost
-info:
-    contact: {email: anasdima@ece.auth.gr, name: Tasos, url: ''}
-    description: Demo
-    license: {name: '', url: ''}
-    termsOfService: ''
-    title: Generic eshop API
-    version: '1'
+info: {description: Demo, termsOfService: '', title: Example API, version: '1'}
 paths:
     /basket:
         post:
@@ -279,6 +276,16 @@ paths:
                 default:
                     description: None
                     schema: {$ref: '#/definitions/basket_post_default_response'}
+        put:
+            parameters:
+            -   in: body
+                name: basket_put_request_body
+                required: true
+                schema: {$ref: '#/definitions/basket_put_request_body'}
+            responses:
+                default:
+                    description: None
+                    schema: {$ref: '#/definitions/basket_put_default_response'}
     /basket/{basket_id}:
         get:
             parameters:
@@ -287,16 +294,6 @@ paths:
                 default:
                     description: None
                     schema: {$ref: '#/definitions/basket_get_default_response'}
-        put:
-            parameters:
-            -   in: body
-                name: basket_put_request_body
-                schema: {$ref: '#/definitions/basket_put_request_body'}
-            - {format: int32, in: path, name: basket_id, required: true, type: integer}
-            responses:
-                default:
-                    description: None
-                    schema: {$ref: '#/definitions/basket_put_default_response'}
     /order:
         post:
             consumes: [multipart/form-data, application/x-www-form-urlencoded]
@@ -314,6 +311,7 @@ paths:
                 '200':
                     description: Order canceled
                     schema: {$ref: '#/definitions/order_delete_200_response'}
+                '404': {description: That order doesn't exist}
         get:
             parameters:
             - {format: int32, in: path, name: order_id, required: true, type: integer}
@@ -332,6 +330,7 @@ paths:
                 '200':
                     description: Order updated
                     schema: {$ref: '#/definitions/order_put_200_response'}
+                '404': {description: That order doesn't exist}
     /order/{order_id}/payment:
         post:
             description: "- \tPossible payment options are 'credit', 'cash', 'paypal'"
@@ -347,26 +346,6 @@ paths:
                 default:
                     description: None
                     schema: {$ref: '#/definitions/payment_post_default_response'}
-    /pending_deliveries:
-        get:
-            parameters:
-            -   in: query
-                name: !!python/object/new:textblob.blob.Word
-                    args: [delivery]
-                    state: {pos_tag: NN, string: delivery}
-                required: true
-                type: string
-            -   format: int32
-                in: query
-                name: !!python/object/new:textblob.blob.Word
-                    args: [id]
-                    state: {pos_tag: NN, string: id}
-                required: true
-                type: integer
-            responses:
-                default:
-                    description: None
-                    schema: {$ref: '#/definitions/pending_deliveries_get_default_response'}
     /product:
         delete:
             parameters:
@@ -380,7 +359,11 @@ paths:
             security:
             -   ? !!python/object/new:textblob.blob.Word
                     args: [administrator]
-                    state: &id007 {pos_tag: NN, string: administrator}
+                    state: &id004
+                        pos_tag: NN
+                        string: !!python/object/new:textblob.blob.Word
+                            args: [administrator]
+                            state: {pos_tag: null, string: administrator}
                 : ['delete:/product']
         post:
             parameters:
@@ -395,7 +378,7 @@ paths:
             security:
             -   ? !!python/object/new:textblob.blob.Word
                     args: [administrator]
-                    state: *id007
+                    state: *id004
                 : ['post:/product']
         put:
             parameters:
@@ -403,14 +386,14 @@ paths:
                 name: product_put_request_body
                 schema: {$ref: '#/definitions/product_put_request_body'}
             responses:
-                '404': {description: Not allowed}
+                '404': {description: the product doesn't exist}
                 default:
                     description: None
                     schema: {$ref: '#/definitions/product_put_default_response'}
             security:
             -   ? !!python/object/new:textblob.blob.Word
                     args: [administrator]
-                    state: *id007
+                    state: *id004
                 : ['put:/product']
     /product/{product_id}:
         get:
@@ -438,7 +421,7 @@ schemes: [https, http]
 securityDefinitions:
     ? !!python/object/new:textblob.blob.Word
         args: [administrator]
-        state: *id007
+        state: *id004
     :   authorizationUrl: http://swagger.io/api/oauth/dialog
         flow: implicit
         scopes: {'delete:/product': No description, 'post:/product': No description,
