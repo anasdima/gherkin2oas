@@ -14,11 +14,13 @@ The API Development process, using the proposed system, consists of two steps:
 ```
 pip install -r requirements.txt
 ```
-3. Install graphviz for your OS:
+3. Install textblob corpora:
+```
+python -m textblob.download_corpora
+```
+4. Install graphviz for your OS: https://www.graphviz.org/download/
 
-https://www.graphviz.org/download/
-
-4. Add graphviz to your PATH if you are on Windows (C:\Program Files(x86)\Graphviz\bin)
+5. Add graphviz to your PATH if you are on Windows (C:\Program Files(x86)\Graphviz\bin)
 
 ## Execution
 
