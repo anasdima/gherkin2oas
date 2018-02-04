@@ -4,7 +4,6 @@ import re
 # from nltk.tag import StanfordPOSTagger
 # from nltk.tag import SennaTagger
 from textblob import TextBlob
-from textblob_aptagger import PerceptronTagger
 import inflect
 import re
 import ast
@@ -361,7 +360,7 @@ def detect_other_resources(sentence,resource,resource_names):
                 return resource_name
 
 def detect_roles(sentence,resource_names,resource_roles):
-    tagged_tokens = TextBlob(sentence, pos_tagger=PerceptronTagger()).tags
+    tagged_tokens = TextBlob(sentence).tags
     roles = []
     has_resources = any(re.search(r'\b' + resource_name + r'\b',sentence) for resource_name in resource_names)
     if not has_resources: 
@@ -422,7 +421,7 @@ def detect_operations(sentence,resource_names,step_type):
                 return hateoas_links
 
 def detect_parameters(sentence,resource_names):
-    tagged_tokens = TextBlob(sentence, pos_tagger=PerceptronTagger()).tags
+    tagged_tokens = TextBlob(sentence).tags
     parameters = []
     for tagged_token in tagged_tokens: # a tagged token has the word at position 0 and the tag at position 1
         if tagged_token[1][0:2] == 'NN':
@@ -432,13 +431,13 @@ def detect_parameters(sentence,resource_names):
     return parameters
 
 def detect_model_name(sentence):
-    tagged_tokens = TextBlob(sentence, pos_tagger=PerceptronTagger()).tags
+    tagged_tokens = TextBlob(sentence).tags
     for tagged_token in tagged_tokens: # a tagged token has the word at position 0 and the tag at position 1
         if tagged_token[1][0:2] == 'NN':
             return tagged_token[0]
 
 def detect_http_verbs(sentence):
-    tagged_tokens = TextBlob(sentence, pos_tagger=PerceptronTagger()).tags
+    tagged_tokens = TextBlob(sentence).tags
     verbs = []
     for tagged_token in tagged_tokens: # a tagged token has the word at position 0 and the tag at position 1
         if tagged_token[1][0:2] == 'VB':           
