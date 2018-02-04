@@ -5,3 +5,4 @@ textblob
 inflect
 pyyaml
 python-dateutil
+graphviz
