@@ -67,12 +67,7 @@ oas_schema['swagger'] = '2.0'
 oas_schema['info'] = {  "title":            oas_settings['INFO']['title'],
                         "description":      oas_settings['INFO']['description'],
                         "version":          oas_settings['INFO']['version'],
-                        "termsOfService":   oas_settings['INFO']['termsOfService'],
-                        "contact":          {'name':oas_settings['CONTACT']['name'],
-                                            'url': oas_settings['CONTACT']['url'],
-                                            'email': oas_settings['CONTACT']['email']},
-                        "license":          {'name': oas_settings['LICENSE']['name'],
-                                            'url': oas_settings['LICENSE']['url']}
+                        "termsOfService":   oas_settings['INFO']['termsOfService']
 }
 oas_schema['host'] = oas_settings['HOST']['host']
 oas_schema['schemes'] = ['https','http']
