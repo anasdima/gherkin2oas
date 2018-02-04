@@ -22,7 +22,7 @@ Feature: order products
 	Scenario: update unpaid order
 		# Given I have ordered
 		# And the order status is "unpaid"
-		When I update an order by it's id
+		When I update an order by its id
 		And I specify the following basket
 			| product ids | [3433,1212,1276] |                |  
 			| quantities  | [1,1,1,2]        | maximum of 100 |  
@@ -34,7 +34,7 @@ Feature: order products
 
 	Scenario: view unpaid order
 		# Given that I have ordered
-		When I request an order by it's id
+		When I request an order by its id
 		Then I can view the details of the order
 		| product names        | ['Chair','Keyboard','Dell Laptop']              |  
 		| product descriptions | ['Made in Stockholm','Mechanical','IPS Screen'] |  
@@ -45,7 +45,7 @@ Feature: order products
 
 	Scenario: view delivery
 		# Given that I have ordered
-		When I request an order by it's id
+		When I request an order by its id
 		Then I can view the details of the pending delivery
 			| product names        | ['Chair','Keyboard','Dell Laptop']              |  
 			| product descriptions | ['Made in Stockholm','Mechanical','IPS Screen'] | 
@@ -53,5 +53,5 @@ Feature: order products
 
 	Scenario: order doesn't exist
 		# Given an order doesn't exist
-		When I request, delete or update that order
+		When I request or delete or update that order
 		Then I should see a message "That order doesn't exist"

@@ -4,7 +4,7 @@ Feature: product
 	# GET, PUT, DELETE /product/{product_id}
 
 	Scenario: retrieve product
-		When I retrieve a product by it's id
+		When I retrieve a product by its id
 		Then I should see the product as follows:
 		| name         | 'Chair'             |  
 		| description  | 'Made in Stockholm' |  
@@ -75,10 +75,10 @@ Feature: product
 
 	Scenario: product doesn't exist
 		Given that a product doesn't exist
-		When I try to delete, retrieve or edit the product
+		When I try to delete or retrieve or edit the product
 		Then I should see a message telling me "the product doesn't exist"
 
 	Scenario: not logged in
 		Given that I'm not logged in
-		When I try to add, delete or update a product
+		When I try to add or delete or update a product
 		Then I should see a message telling me "Not allowed"
