@@ -11,6 +11,7 @@ from swagger_spec_validator import validator20
 import graph
 import argparse
 import configparser
+import os
 
 start_time = time.time()
 
@@ -28,7 +29,10 @@ oas_settings = configparser.ConfigParser()
 oas_settings.read('api_info.ini')
 if not oas_settings:
     sys.exit("Something went wrong when reading api info file")
-
+try:
+    os.makedirs('output_files')
+except:
+    pass
 model = {}
 resource_graph = {}
 state_graph = {}
