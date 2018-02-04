@@ -19,7 +19,7 @@ Feature: user
 
 	Scenario: Attempt to create user while not being authorized
 		# Given that I am not authorized to create users
-		When I attempt to create, view, delete or update the user
+		When I attempt to create or view or delete or update the user
 		Then I should see a message "You are unauthorized to make this request."
 
 	Scenario: View user's details
@@ -30,7 +30,7 @@ Feature: user
 
 	Scenario: User does not exist
 		# Given that the user does not exist
-		When I request, update or delete a user by his id
+		When I request or update or delete a user by his id
 		Then I should see "User doesn't exist"
 
 	Scenario: Delete user
@@ -62,7 +62,7 @@ Feature: user
 
 	Scenario: Award trophy
 	Give trophy to particular user.
-		When I update a user by it's id
+		When I update a user by its id
 		And I award a 
 		| trophy | 'trophytype' |
 		Then I should see the message "Successfully awarded"

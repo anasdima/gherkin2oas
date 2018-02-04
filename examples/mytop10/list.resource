@@ -27,16 +27,16 @@ Feature: lists
 
 	Scenario: Retrieve list
 	Returns a single list of a particular user.
-		When I check a list by it's id
-		Then I should see it's name
+		When I check a list by its id
+		Then I should see its name
 
 	Scenario: non existing list
 		# Given a list does not exist
-		When I try to view, delete or change a list by it's id
+		When I try to view or delete or change a list by its id
 		Then I should see "List doesn't exist"
 
 	Scenario: Anauthorized list viewing and editing
-		When I request or delete a list by it's id
+		When I request or delete a list by its id
 		Then I should see "You are unauthorized to make this request."
 
 	Scenario: Delete list
@@ -64,7 +64,7 @@ Feature: lists
 
 	Scenario: Change list name:
 	Change a name of a single list.
-		When I change a list by it's id
+		When I change a list by its id
 		And I specify a list name as the changed value
 		|listname| 'movies'|
 		Then I should see "Listname changed successfully"
