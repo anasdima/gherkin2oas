@@ -20,7 +20,7 @@ python -m textblob.download_corpora
 ```
 4. Install graphviz for your OS: https://www.graphviz.org/download/
 
-5. Add graphviz to your PATH if you are on Windows (something like C:\Program Files(x86)\Graphviz\bin)
+5. Add graphviz to your PATH if you are on Windows (it's something like C:\Program Files(x86)\Graphviz\bin)
 
 ## Execution
 
