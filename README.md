@@ -3,7 +3,7 @@
 The Gherkin2OAS tool and the Gherkin Specification Document is a system that I designed and developed as part of my Diploma Thesis in the Intelligent Systems and Software Engineering Labgroup (ISSEL) of the Electrical and Computer Engineering Department, Aristotle University of Thessaloniki. The goal of the system is to assist developers in writing customer-friendly RESTful Web API functional requirements and also in documenting their API with the OpenAPI Specification.
 
 The API Development process, using the proposed system, consists of two steps:
-  1. Write resource files according to the Gherkin Specification Document
+  1. Write resource files according to the Gherkin-Instructions.pdf document
   2. Run the Gherkin2OAS tool, which will in turn convert the Gherkin resource files to an OpenAPI Specification
 
 ## Installation
