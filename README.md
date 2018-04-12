@@ -1,4 +1,4 @@
-# Introduction
+## Introduction
 
 The goal of the system is to assist developers in writing customer-friendly RESTful Web API functional requirements and also in documenting their API with the OpenAPI Specification.
 
